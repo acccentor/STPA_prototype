@@ -6,18 +6,18 @@
       <tr>
         <th>#
         <th>Title
-        <th>Date
         <th>Text
+        <th>Date
       {%- for todo in todos %}
       <tr class={{ "success" if todo.vcs_check }}>
         <td><a href="/todos/{{ todo.id }}">{{ todo.id }}</a>
         <td>{{ todo.title }}
-        <td>{{ todo.pub_date.strftime('%Y-%m-%d %H:%M') }}
         <td>{{ todo.text }}</td>
+        <td>{{ todo.pub_date.strftime('%Y-%m-%d %H:%M') }}
       {%- endfor %}
     </table>
     <p>
-      <a href="{{ url_for('new') }}" class="btn btn-large btn-primary">New Todo</a>
+      <a href="{{ url_for('new') }}" class="btn btn-large btn-primary">New Goal</a>
  
  
 </div>

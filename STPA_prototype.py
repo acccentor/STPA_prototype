@@ -49,7 +49,7 @@ def new():
 def show_or_update(todo_id):
     todo_item = Todo.query.get(todo_id)
     if request.method == 'GET':
-        return render_template('view.html',todo=todo_item)
+        return render_template('view.html', todo=todo_item)
     todo_item.title = request.form['title']
     todo_item.text = request.form['text']
     todo_item.vcs_check = ('vcs_check.%d' % todo_id) in request.form
