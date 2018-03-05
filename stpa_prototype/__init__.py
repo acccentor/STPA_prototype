@@ -1,10 +1,12 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, flash, url_for, redirect, render_template, abort
+from stpa_prototype.fundamentals.goals import goals_blueprint
 
 app = Flask(__name__)
 
 app.config.from_pyfile('../config.py')
+app.register_blueprint(goals_blueprint)
 db = SQLAlchemy(app)
 
 
