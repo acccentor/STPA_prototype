@@ -4,7 +4,7 @@ from flask import Flask, request, flash, url_for, redirect, render_template, abo
 
 app = Flask(__name__)
 
-app.config.from_pyfile('wsgi/stpa_prototype.cfg')
+app.config.from_pyfile('../config.py')
 db = SQLAlchemy(app)
 
 
@@ -45,7 +45,7 @@ def new():
     return render_template('new.html')
 
 
-@app.route('/todos/<int:todo_id>', methods=['GET', 'POST'])
+@app.route('/goals/<int:todo_id>', methods=['GET', 'POST'])
 def show_or_update(todo_id):
     todo_item = Todo.query.get(todo_id)
     if request.method == 'GET':
