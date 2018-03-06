@@ -1,31 +1,31 @@
 {% extends "layout.html" %}
 {% block body %}
   <form action="" method=post class="form-horizontal">
-    <h2>Create New Todo</h2>
+    <h2>Create New Hazard</h2>
     <div class="control-group">
         <div class="controls">
           <input type="text" id="title" name="title" class="input-xlarge"
-            placeholder="Please give title to todo item" value="{{ todo.title }}"
+            placeholder="Please give title to the hazard" value="{{ hazard.title }}"
             required>
         </div>
     </div>
  
     <div class="control-group">
         <div class="controls">
-          <textarea name="text" rows=10 class="input-xlarge" placeholder="describle the todo item" required>{{ todo.text }}</textarea>
+          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the hazard" required>{{ hazard.text }}</textarea>
         </div>
     </div>
  
     <div class="control-group">
         <div class="controls">
-          <input type=checkbox name=vcs_check.{{ todo.id }}{{ " checked" if todo.vcs_check }}>
+          <input type=checkbox name=vcs_check.{{ hazard.id }}{{ " checked" if hazard.vcs_check }}>
         </div>
     </div>
  
  
     <div class="control-group">
         <div class="controls">
-          <button type="submit" class="btn btn-success">Update Todo</button>
+          <button type="submit" class="btn btn-success">Update Hazard</button>
           <a href="{{ url_for('hazards.index') }}">Back to list</a>
         </div>
     </div>

@@ -20,7 +20,7 @@ class Goal(Base):
 
 
 class Hazard(Base):
-    __tablename__ = 'system_goals'
+    __tablename__ = 'system_hazard'
     id = Column('hazard_id', Integer, primary_key=True)
     title = Column(String(60))
     text = Column(String)

@@ -28,13 +28,13 @@ def new():
     return render_template('fundamentals/goals/new.html')
 
 
-@goals_blueprint.route('/<int:todo_id>', methods=['GET', 'POST'])
-def show_or_update(todo_id):
-    goal_item = Goal.query.get(todo_id)
+@goals_blueprint.route('/<goal_id>', methods=['GET', 'POST'])
+def show_or_update(goal_id):
+    goal_item = Goal.query.get(goal_id)
     if request.method == 'GET':
-        return render_template('fundamentals/goals/view.html', todo=goal_item)
+        return render_template('fundamentals/goals/view.html', goal=goal_item)
     goal_item.title = request.form['title']
     goal_item.text = request.form['text']
-    goal_item.vcs_check = ('vcs_check.%d' % todo_id) in request.form
+    goal_item.vcs_check = ('vcs_check.%d' % goal_id) in request.form
     db_session.commit()
     return redirect(url_for('goals.index'))

@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, abort
 from stpa_prototype.fundamentals.goals import goals_blueprint
+from stpa_prototype.fundamentals.hazards import hazards_blueprint
 from stpa_prototype.database import db_session
 
 app = Flask(__name__)
@@ -9,7 +10,7 @@ app.config.from_pyfile('../config.py')
 app.db = SQLAlchemy(app)
 
 app.register_blueprint(goals_blueprint)
-
+app.register_blueprint(hazards_blueprint)
 
 # class Todo(app.db.Model):
 #     __tablename__ = 'system_goals'
