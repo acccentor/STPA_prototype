@@ -13,7 +13,7 @@ def hello_world():
 
 @goals_blueprint.route('/')
 def index():
-    return render_template('goals_index.html',
+    return render_template('fundamentals/goals/index.html',
                            goals=Goals.query.order_by(Goals.id.asc()).all()
                            )
 
@@ -25,14 +25,14 @@ def new():
         db_session.add(goals)
         db_session.commit()
         return redirect(url_for('goals.index'))
-    return render_template('goals_new.html')
+    return render_template('fundamentals/goals/new.html')
 
 
 @goals_blueprint.route('/<int:todo_id>', methods=['GET', 'POST'])
 def show_or_update(todo_id):
     goal_item = Goals.query.get(todo_id)
     if request.method == 'GET':
-        return render_template('view.html', todo=goal_item)
+        return render_template('fundamentals/goals/view.html', todo=goal_item)
     goal_item.title = request.form['title']
     goal_item.text = request.form['text']
     goal_item.vcs_check = ('vcs_check.%d' % todo_id) in request.form
