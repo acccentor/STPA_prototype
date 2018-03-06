@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="main" class="container">
+    <h2>All Items</h2>
+    <table class="table table-hover">
+      <tr>
+        <th>#
+        <th>Title
+        <th>Text
+        <th>Date
+      {%- for hazard in hazards %}
+      <tr class={{ "success" if hazard.vcs_check }}>
+        <td><a href="/hazards/{{ hazard.id }}">{{ hazard.id }}</a>
+        <td>{{ hazard.title }}
+        <td>{{ hazard.text }}</td>
+        <td>{{ hazard.pub_date.strftime('%Y-%m-%d %H:%M') }}
+      {%- endfor %}
+    </table>
+    <p>
+      <a href="{{ url_for('hazards.new') }}" class="btn btn-large btn-primary">New hazard</a>
+ 
+ 
+</div>
+{% endblock %}
