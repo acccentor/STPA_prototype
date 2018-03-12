@@ -32,3 +32,14 @@ class Hazard(Base):
         self.text = text
         self.vcs_check = False
         self.pub_date = datetime.utcnow()
+
+
+class User(Base):
+    __tablename__ = 'auth_user'
+    id = Column('goal_id', Integer, primary_key=True)
+    name = Column(String(128),  nullable=False)
+    password = Column(String(192),  nullable=False)
+
+    def __init__(self, name, password):
+        self.name = name
+        self.password = password
