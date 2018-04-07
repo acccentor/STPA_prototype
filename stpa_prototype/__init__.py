@@ -1,11 +1,12 @@
 from flask_security import Security, SQLAlchemySessionUserDatastore
 from flask import Flask, render_template, abort
 
-from stpa_prototype.auth.auth import auth_blueprint
+
 from stpa_prototype.fundamentals.goals import goals_blueprint
 from stpa_prototype.fundamentals.hazards import hazards_blueprint
 from stpa_prototype.database import db_session
 from stpa_prototype.models import User, Role
+from stpa_prototype.auth.auth import auth_blueprint
 
 app = Flask(__name__)
 
@@ -15,7 +16,6 @@ app.config.from_pyfile('../config.py')
 # login
 user_datastore = SQLAlchemySessionUserDatastore(db_session, User, Role)
 security = Security(app, user_datastore)
-
 app.register_blueprint(goals_blueprint)
 app.register_blueprint(hazards_blueprint)
 app.register_blueprint(auth_blueprint)
