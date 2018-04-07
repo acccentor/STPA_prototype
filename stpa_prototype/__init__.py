@@ -1,16 +1,31 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask_security import Security, SQLAlchemySessionUserDatastore
 from flask import Flask, render_template, abort
 from stpa_prototype.fundamentals.goals import goals_blueprint
 from stpa_prototype.fundamentals.hazards import hazards_blueprint
 from stpa_prototype.database import db_session
+from stpa_prototype.models import User, Role
 
 app = Flask(__name__)
 
 app.config.from_pyfile('../config.py')
-app.db = SQLAlchemy(app)
+# app.db = SQLAlchemy(app)
 
 app.register_blueprint(goals_blueprint)
 app.register_blueprint(hazards_blueprint)
+
+user_datastore = SQLAlchemySessionUserDatastore(db_session, User, Role)
+security = Security(app, user_datastore)
+
+# # Login manager
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+#
+#
+# # move later?
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.get(user_id)
+
 
 # class Todo(app.db.Model):
 #     __tablename__ = 'system_goals'
