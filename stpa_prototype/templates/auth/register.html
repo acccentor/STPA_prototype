@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block body %}
+  <form action="" method=post class="form-horizontal">
+    <h2>Create New Hazard</h2>
+    <div class="control-group">
+        <div class="controls">
+          <input type="text" id="email" name="email" class="input-xlarge"
+            placeholder="Please provide email" value="{{ request.form.email }}"
+            required>
+        </div>
+    </div>
+ 
+    <div class="control-group">
+        <div class="controls">
+          <input type="text" id="password" name="password" class="input-xlarge"
+            placeholder="Please provide password" value="{{ request.form.password }}"
+            required>
+        </div>
+    </div>
+ 
+    <div class="control-group">
+        <div class="controls">
+          <button type="submit" class="btn btn-success">Create User</button>
+          <a href="{{ url_for('auth.login') }}">Back to list</a>
+        </div>
+    </div>
+  </form>
+{% endblock %}
