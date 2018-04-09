@@ -21,12 +21,21 @@ def register():
 def login():
     if request.method == 'POST':
         user = db_session.query(User).filter_by(email=request.form['email']).first()
-        print utils.verify_password(request.form['password'], user.password)
+        if utils.verify_password(request.form['password'], user.password):
+            utils.login_user(user, remember=None)
+            return 'Login'
         # temp_user = stpa_prototype.user_datastore.get_user(request.form['email'])
         # print utils.verify_and_update_password(request.form['password'], temp_user)
         # print utils.hash_password(request.form['password'])
         # print utils.verify_and_update_password(utils.hash_password(request.form['password']), temp_user)
     return render_template('auth/login.html')
+
+
+@auth_blueprint.route('/logout', methods=['GET', 'POST'])
+def logout():
+    utils.logout_user()
+    return render_template('auth/login.html')
+
 
 # @auth.route('/login/', methods=['GET', 'POST'])
 # def login():

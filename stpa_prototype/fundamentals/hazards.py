@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, request, url_for, redirect
 # from stpa_prototype import Todo
 from stpa_prototype.database import db_session
 from stpa_prototype.models import Hazard
+from flask_security.decorators import login_required
+
 hazards_blueprint = Blueprint('hazards', __name__, template_folder='templates', url_prefix='/hazards')
 
 
@@ -12,6 +14,7 @@ def hello_world():
 
 
 @hazards_blueprint.route('/')
+@login_required
 def index():
     return render_template('fundamentals/hazards/index.html',
                            hazards=Hazard.query.order_by(Hazard.id.asc()).all()
@@ -19,6 +22,7 @@ def index():
 
 
 @hazards_blueprint.route('/new', methods=['GET', 'POST'])
+@login_required
 def new():
     if request.method == 'POST':
         hazards = Hazard(request.form['title'], request.form['text'])
@@ -29,6 +33,7 @@ def new():
 
 
 @hazards_blueprint.route('/<hazard_id>', methods=['GET', 'POST'])
+@login_required
 def show_or_update(hazard_id):
     hazard_item = Hazard.query.get(hazard_id)
     if request.method == 'GET':

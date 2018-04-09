@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, request, url_for, redirect
 # from stpa_prototype import Todo
 from stpa_prototype.database import db_session
 from stpa_prototype.models import Goal
+from flask_security.decorators import login_required
+
 goals_blueprint = Blueprint('goals', __name__, template_folder='templates', url_prefix='/goals')
 
 
@@ -12,6 +14,7 @@ def hello_world():
 
 
 @goals_blueprint.route('/')
+@login_required
 def index():
     return render_template('fundamentals/goals/index.html',
                            goals=Goal.query.order_by(Goal.id.asc()).all()
@@ -19,6 +22,7 @@ def index():
 
 
 @goals_blueprint.route('/new', methods=['GET', 'POST'])
+@login_required
 def new():
     if request.method == 'POST':
         goals = Goal(request.form['title'], request.form['text'])
@@ -29,6 +33,7 @@ def new():
 
 
 @goals_blueprint.route('/<goal_id>', methods=['GET', 'POST'])
+@login_required
 def show_or_update(goal_id):
     goal_item = Goal.query.get(goal_id)
     if request.method == 'GET':
