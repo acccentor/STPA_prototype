@@ -13,9 +13,13 @@ app = Flask(__name__)
 app.config.from_pyfile('../config.py')
 # app.db = SQLAlchemy(app)
 
-# login
+# Flask-Security
 user_datastore = SQLAlchemySessionUserDatastore(db_session, User, Role)
 security = Security(app, user_datastore)
+
+# # Flask-Login
+# login_manager = LoginManager()
+
 app.register_blueprint(goals_blueprint)
 app.register_blueprint(hazards_blueprint)
 app.register_blueprint(auth_blueprint)
