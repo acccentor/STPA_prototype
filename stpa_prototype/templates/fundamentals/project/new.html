@@ -1,25 +1,25 @@
 {% extends "layout.html" %}
 {% block body %}
   <form action="" method=post class="form-horizontal">
-    <h2>Create New Goal</h2>
+    <h2>Create New Project</h2>
     <div class="control-group">
         <div class="controls">
           <input type="text" id="title" name="title" class="input-xlarge"
-            placeholder="Please give title to the goal" value="{{ request.form.title }}"
+            placeholder="Please give title to the project" value="{{ request.form.title }}"
             required>
         </div>
     </div>
  
     <div class="control-group">
         <div class="controls">
-          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the goal" required>{{ request.form.text }}</textarea>
+          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the project" required>{{ request.form.text }}</textarea>
         </div>
     </div>
  
     <div class="control-group">
         <div class="controls">
-          <button type="submit" class="btn btn-success">Create Goal</button>
-          <a href="{{ url_for('goals.index') }}">Back to list</a>
+          <button type="submit" class="btn btn-success">Create Project</button>
+          <a href="{{ url_for('project.index') }}">Back to list</a>
         </div>
     </div>
   </form>

@@ -7,17 +7,16 @@
         <th>#
         <th>Title
         <th>Text
-        <th>Date
       {%- for project in projects %}
-      <tr class={{ "success" if project.vcs_check }}>
+      <tr>
         <td><a href="/projects/{{ project.id }}">{{ project.id }}</a>
         <td>{{ project.title }}
-        <td>{{ project.text }}</td>
-        <td>{{ project.pub_date.strftime('%Y-%m-%d %H:%M') }}
+        <td>{{ project.description }}</td>
+{#        <td>{{ project.pub_date.strftime('%Y-%m-%d %H:%M') }}#}
       {%- endfor %}
     </table>
     <p>
-{#      <a href="{{ url_for('projects.new') }}" class="btn btn-large btn-primary">New project</a>#}
+      <a href="{{ url_for('project.new') }}" class="btn btn-large btn-primary">New project</a>
  
  
 </div>

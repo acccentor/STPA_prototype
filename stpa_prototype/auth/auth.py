@@ -23,7 +23,7 @@ def login():
         user = db_session.query(User).filter_by(email=request.form['email']).first()
         if utils.verify_password(request.form['password'], user.password):
             utils.login_user(user, remember=None)
-            return 'Login'
+            return redirect(url_for('goals.index'))
         # temp_user = stpa_prototype.user_datastore.get_user(request.form['email'])
         # print utils.verify_and_update_password(request.form['password'], temp_user)
         # print utils.hash_password(request.form['password'])

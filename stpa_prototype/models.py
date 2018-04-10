@@ -84,12 +84,12 @@ class RolesUsers(Base):
 class Project(Base):
     __tablename__ = 'project'
     id = Column(Integer(), primary_key=True)
-    name = Column(String(80), unique=True)
+    title = Column(String(80), unique=True)
     description = Column(String(255))
     users = relationship('User', secondary='project_users', backref=backref('users', lazy='dynamic'))
 
-    def __init__(self, name, desc, user):
-        self.name = name
+    def __init__(self, title, desc, user):
+        self.title = title
         self.description = desc
         self.users.append(user)
 
