@@ -10,7 +10,7 @@ project_blueprint = Blueprint('project', __name__, template_folder='templates', 
 @project_blueprint.route('/')
 @login_required
 def index():
-    return render_template('fundamentals/project/index.html',
+    return render_template('project_management/index.html',
                            projects=current_user.projects
                            )
 
@@ -23,7 +23,7 @@ def new():
         db_session.add(project)
         db_session.commit()
         return redirect(url_for('project.index'))
-    return render_template('fundamentals/project/new.html')
+    return render_template('project_management/new.html')
 #
 #
 # @project_blueprint.route('/<project_id>', methods=['GET', 'POST'])
