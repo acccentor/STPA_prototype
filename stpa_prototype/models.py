@@ -4,6 +4,7 @@ from flask_security import UserMixin, RoleMixin
 from sqlalchemy.orm import relationship, backref
 
 from sqlalchemy import Boolean, DateTime, ForeignKey, Column, Integer, String
+from datetime import datetime
 
 
 class Goal(Base):
@@ -18,7 +19,7 @@ class Goal(Base):
         self.title = title
         self.text = text
         self.vcs_check = False
-        self.pub_date = DateTime.utcnow()
+        self.pub_date = datetime.utcnow()
 
 
 class Hazard(Base):
@@ -33,7 +34,7 @@ class Hazard(Base):
         self.title = title
         self.text = text
         self.vcs_check = False
-        self.pub_date = DateTime.utcnow()
+        self.pub_date = datetime.utcnow()
 
 
 # class User(Base):
@@ -63,7 +64,7 @@ class User(Base, UserMixin):
     confirmed_at = Column(DateTime())
     roles = relationship('Role', secondary='roles_users',
                          backref=backref('users', lazy='dynamic'))
-
+    projects = relationship('Project', secondary='project_users', backref=backref('projects', lazy='dynamic'))
 
 # example Role from https://pythonhosted.org/Flask-Security/quickstart.html
 class Role(Base, RoleMixin):
@@ -78,3 +79,23 @@ class RolesUsers(Base):
     id = Column(Integer(), primary_key=True)
     user_id = Column('user_id', Integer(), ForeignKey('user.id'))
     role_id = Column('role_id', Integer(), ForeignKey('role.id'))
+
+
+class Project(Base):
+    __tablename__ = 'project'
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(80), unique=True)
+    description = Column(String(255))
+    users = relationship('User', secondary='project_users', backref=backref('users', lazy='dynamic'))
+
+    def __init__(self, name, desc, user):
+        self.name = name
+        self.description = desc
+        self.users.append(user)
+
+
+class ProjectUsers(Base):
+    __tablename__ = 'project_users'
+    id = Column(Integer(), primary_key=True)
+    user_id = Column('user_id', Integer(), ForeignKey('user.id'))
+    project_id = Column('role_id', Integer(), ForeignKey('project.id'))
