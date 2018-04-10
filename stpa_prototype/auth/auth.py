@@ -1,8 +1,9 @@
-from flask_security import utils
 from flask import Blueprint, render_template, request, url_for, redirect
-from stpa_prototype.database import db_session
-from stpa_prototype.models import User
+from flask_security import utils
+
 import stpa_prototype
+from stpa_prototype.database.database import db_session
+from stpa_prototype.database.models import User
 
 auth_blueprint = Blueprint('auth', __name__, template_folder='templates', url_prefix='/auth')
 

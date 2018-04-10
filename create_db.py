@@ -1,6 +1,6 @@
-from stpa_prototype.database import init_db, db_session
-from stpa_prototype.models import *
 import stpa_prototype
+from stpa_prototype.database import init_db, db_session
+from stpa_prototype.database.models import *
 
 init_db()
 stpa_prototype.user_datastore.create_user(email='user2', password='user2')

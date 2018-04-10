@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, url_for, redirect
 # from flask import current_app as app
 # from stpa_prototype import Todo
-from stpa_prototype.database import db_session
-from stpa_prototype.models import Hazard
+from stpa_prototype.database.database import db_session
+from stpa_prototype.database.models import Hazard
 from flask_security.decorators import login_required
 
 hazards_blueprint = Blueprint('hazards', __name__, template_folder='templates', url_prefix='/hazards')

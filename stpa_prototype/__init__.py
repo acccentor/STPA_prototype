@@ -2,10 +2,10 @@ from flask import Flask
 from flask_security import Security, SQLAlchemySessionUserDatastore
 
 from stpa_prototype.auth.auth import auth_blueprint
-from stpa_prototype.database import db_session, init_db
+from stpa_prototype.database.database import db_session, init_db
+from stpa_prototype.database.models import User, Role
 from stpa_prototype.fundamentals.goals import goals_blueprint
 from stpa_prototype.fundamentals.hazards import hazards_blueprint
-from stpa_prototype.models import User, Role
 from stpa_prototype.project_management.project import project_blueprint
 
 app = Flask(__name__)

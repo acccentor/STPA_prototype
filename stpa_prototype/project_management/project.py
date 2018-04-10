@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, url_for, redirect
-from stpa_prototype.database import db_session
-from stpa_prototype.models import Project
-from flask_security.decorators import login_required
 from flask_security.core import current_user
+from flask_security.decorators import login_required
+
+from stpa_prototype.database.database import db_session
+from stpa_prototype.database.models import Project
 
 project_blueprint = Blueprint('project', __name__, template_folder='templates', url_prefix='/project')
 

@@ -1,4 +1,4 @@
-from stpa_prototype.database import Base
+from stpa_prototype.database.database import Base
 from flask_security import UserMixin, RoleMixin
 
 from sqlalchemy.orm import relationship, backref
