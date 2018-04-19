@@ -1,5 +1,5 @@
 import stpa_prototype
-from stpa_prototype.database import init_db, db_session
+from stpa_prototype.database.database import init_db, db_session
 from stpa_prototype.database.models import *
 
 init_db()
