@@ -84,7 +84,7 @@ class RolesUsers(Base):
 class Project(Base):
     __tablename__ = 'project'
     id = Column(Integer(), primary_key=True)
-    title = Column(String(80), unique=True)
+    title = Column(String(80))
     description = Column(String(255))
     users = relationship('User', secondary='project_users', backref=backref('users', lazy='dynamic'))
 

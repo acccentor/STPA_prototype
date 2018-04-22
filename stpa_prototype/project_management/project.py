@@ -3,6 +3,7 @@ from flask_security.core import current_user
 from flask_security.decorators import login_required
 
 from stpa_prototype.database.database import db_session
+from stpa_prototype.database.database_project import ProjectDB
 from stpa_prototype.database.models import Project
 
 project_blueprint = Blueprint('project', __name__, template_folder='templates', url_prefix='/project')
@@ -23,6 +24,8 @@ def new():
         project = Project(request.form['title'], request.form['text'], current_user)
         db_session.add(project)
         db_session.commit()
+        project_db = ProjectDB(project.id)
+        project_db.init_db()
         return redirect(url_for('project.index'))
     return render_template('project_management/new.html')
 #

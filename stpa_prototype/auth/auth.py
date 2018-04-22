@@ -18,6 +18,7 @@ def register():
     return render_template('auth/register.html')
 
 
+# TODO check user before comparing password, throws error when invalid user
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
