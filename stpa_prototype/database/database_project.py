@@ -10,11 +10,14 @@ class ProjectDB:
         path = 'sqlite:///resources/db/{}_project.db'.format(project_id)
         self.project_id = project_id
         self.engine = create_engine(path, convert_unicode=True)
-        self.db_session = scoped_session(sessionmaker(autocommit=False,
+        self.project_db_session = scoped_session(sessionmaker(autocommit=False,
                                                       autoflush=False,
                                                       bind=self.engine))
-        self.PBase.query = self.db_session.query_property()
+        # self.PBase.query = self.project_db_session.query_property()
 
     def init_db(self):
         import stpa_prototype.database.project_models
         ProjectDB.PBase.metadata.create_all(bind=self.engine)
+
+    def get_project_db_session(self):
+        return self.project_db_session
