@@ -29,16 +29,15 @@ def new():
         project_db.init_db()
         return redirect(url_for('project.index'))
     return render_template('project_management/new.html')
-#
-#
-# @project_blueprint.route('/<project_id>', methods=['GET', 'POST'])
-# @login_required
-# def show_or_update(project_id):
-#     project_item = project.query.get(project_id)
-#     if request.method == 'GET':
-#         return render_template('fundamentals/projects/view.html', project=project_item)
-#     project_item.title = request.form['title']
-#     project_item.text = request.form['text']
-#     project_item.vcs_check = ('vcs_check.%d' % project_id) in request.form
-#     db_session.commit()
-#     return redirect(url_for('projects.index'))
+
+
+@project_blueprint.route('/<project_id>', methods=['GET', 'POST'])
+@login_required
+def show_or_update(project_id):
+    if request.method == 'POST':
+        session['active_project_db'] = project_id
+
+    if request.method == 'GET':
+        return render_template('project_management/view.html')
+
+    return redirect(url_for('project.index'))

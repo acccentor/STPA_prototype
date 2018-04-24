@@ -1,32 +1,10 @@
 {% extends "layout.html" %}
 {% block body %}
   <form action="" method=post class="form-horizontal">
-    <h2>Create New Goal</h2>
+    <h2>Project</h2>
     <div class="control-group">
         <div class="controls">
-          <input type="text" id="title" name="title" class="input-xlarge"
-            placeholder="Goal title" value="{{ goal.title }}"
-            required>
-        </div>
-    </div>
- 
-    <div class="control-group">
-        <div class="controls">
-          <textarea name="text" rows=10 class="input-xlarge" placeholder="describle the goal" required>{{ goal.text }}</textarea>
-        </div>
-    </div>
- 
-    <div class="control-group">
-        <div class="controls">
-          <input type=checkbox name=vcs_check.{{ goal.id }}{{ " checked" if goal.vcs_check }}>
-        </div>
-    </div>
- 
- 
-    <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn btn-success">Update Goal</button>
-          <a href="{{ url_for('goals.index') }}">Back to list</a>
+          <button type="submit" class="btn btn-success">Set Active</button>
         </div>
     </div>
   </form>

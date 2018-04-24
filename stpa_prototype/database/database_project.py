@@ -7,7 +7,7 @@ class ProjectDB:
     PBase = declarative_base()
 
     def __init__(self, project_id):
-        path = 'sqlite:///resources/db/%d_project.db' % project_id
+        path = 'sqlite:///resources/db/{}_project.db'.format(project_id)
         self.project_id = project_id
         self.engine = create_engine(path, convert_unicode=True)
         self.db_session = scoped_session(sessionmaker(autocommit=False,
