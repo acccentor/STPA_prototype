@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, session
 from flask_security.core import current_user
 from flask_security.decorators import login_required
 
@@ -25,6 +25,7 @@ def new():
         db_session.add(project)
         db_session.commit()
         project_db = ProjectDB(project.id)
+        session['active_project_db'] = project_db.project_id
         project_db.init_db()
         return redirect(url_for('project.index'))
     return render_template('project_management/new.html')

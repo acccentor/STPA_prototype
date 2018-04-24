@@ -8,6 +8,7 @@ class ProjectDB:
 
     def __init__(self, project_id):
         path = 'sqlite:///resources/db/%d_project.db' % project_id
+        self.project_id = project_id
         self.engine = create_engine(path, convert_unicode=True)
         self.db_session = scoped_session(sessionmaker(autocommit=False,
                                                       autoflush=False,
