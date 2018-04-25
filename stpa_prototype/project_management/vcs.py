@@ -34,7 +34,7 @@ def add_and_commit(project_id):
 
 
 # init_db_repo('5')
-create_and_commit_master('6')
+# create_and_commit_master('6')
 
 # add_and_commit('6')
 # repo_path = join(os_path, '6')
