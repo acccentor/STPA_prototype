@@ -8,6 +8,7 @@ from flask_security.decorators import login_required
 goals_blueprint = Blueprint('goals', __name__, template_folder='templates', url_prefix='/goals')
 
 
+# TODO remove test functions
 @goals_blueprint.route('/hello')
 def hello_world():
     return 'Hello!!!! Werld!'
