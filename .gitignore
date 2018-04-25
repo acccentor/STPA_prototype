@@ -8,5 +8,5 @@
 
 # db
 **.db
+#resources/db/projects
 !stpa.db
-STPA_prototype/resources/db/
