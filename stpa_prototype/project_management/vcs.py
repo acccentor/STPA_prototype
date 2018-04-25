@@ -8,13 +8,12 @@ os_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../resourc
 
 
 def init_db_repo(project_id):
-    repo_path = join(os_path, project_id)
+    repo_path = join(os_path, str(project_id))
     assert Repo.init(repo_path).__class__ is Repo
-    repo = Repo(repo_path)
 
 
 def create_and_commit_master(project_id):
-    repo_path = join(os_path, project_id)
+    repo_path = join(os_path, str(project_id))
     repo = Repo(repo_path)
     assert not repo.bare
     index = repo.index
@@ -24,7 +23,7 @@ def create_and_commit_master(project_id):
 
 
 def add_and_commit(project_id):
-    repo_path = join(os_path, project_id)
+    repo_path = join(os_path, str(project_id))
     repo = Repo(repo_path)
     assert not repo.bare
     index = repo.index
