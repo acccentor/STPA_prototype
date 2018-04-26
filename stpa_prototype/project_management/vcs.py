@@ -28,7 +28,7 @@ def add_and_commit(project_id):
     assert not repo.bare
     index = repo.index
     index.add(['project.db'])
-    index.commit()
+    index.commit('temp_text')
 
 
 def get_repo(project_id):
