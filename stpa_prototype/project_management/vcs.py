@@ -31,12 +31,26 @@ def add_and_commit(project_id):
     index.commit()
 
 
+def get_repo(project_id):
+    repo_path = join(os_path, str(project_id))
+    repo = Repo(repo_path)
+    assert not repo.bare
+    return repo
 
 # init_db_repo('5')
 # create_and_commit_master('6')
 
 # add_and_commit('6')
-# repo_path = join(os_path, '6')
+
+#
+# repo_path = join(os_path, '1')
 # repo = Repo(repo_path)
+# master = repo.head.reference
+# for item in list(repo.iter_commits()):
+#     print item.message
+#     print item.name_rev
+# print master.log()
+
+
 # assert not repo.bare
 # print repo.is_dirty()

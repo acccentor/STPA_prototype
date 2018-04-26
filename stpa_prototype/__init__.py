@@ -7,6 +7,7 @@ from stpa_prototype.database.models import User, Role
 from stpa_prototype.fundamentals.goals import goals_blueprint
 from stpa_prototype.fundamentals.hazards import hazards_blueprint
 from stpa_prototype.project_management.project import project_blueprint
+from stpa_prototype.project_management.vcs_blueprint import vcs_blueprint
 
 app = Flask(__name__)
 
@@ -24,7 +25,7 @@ app.register_blueprint(goals_blueprint)
 app.register_blueprint(hazards_blueprint)
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(project_blueprint)
-
+app.register_blueprint(vcs_blueprint)
 
 init_db()
 
