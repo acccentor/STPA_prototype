@@ -37,6 +37,15 @@ def get_repo(project_id):
     assert not repo.bare
     return repo
 
+
+
+# repo_path = join(os_path, str(2))
+# repo = Repo(repo_path)
+# git = repo.git
+# git.checkout(repo.iter_commits().next())
+
+
+
 # init_db_repo('5')
 # create_and_commit_master('6')
 

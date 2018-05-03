@@ -20,6 +20,7 @@ def test():
     db = ProjectDB(session['active_project_db']).get_project_db_session()
     db.add(Goal('thisistest', 'still test'))
     db.query(Goal).all()
+    db.close()
     return 'Hello!!!! Werld!'
 
 
@@ -27,8 +28,10 @@ def test():
 @login_required
 def index():
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+    goals_list = project_db_session.query(Goal).order_by(Goal.id.asc()).all()
+    project_db_session.close()
     return render_template('fundamentals/goals/index.html',
-                           goals=project_db_session.query(Goal).order_by(Goal.id.asc()).all()
+                           goals=goals_list
                            )
 
 
@@ -40,6 +43,7 @@ def new():
         goals = Goal(request.form['title'], request.form['text'])
         project_db_session.add(goals)
         project_db_session.commit()
+        project_db_session.close()
         return redirect(url_for('goals.index'))
     return render_template('fundamentals/goals/new.html')
 
@@ -55,4 +59,5 @@ def show_or_update(goal_id):
     goal_item.text = request.form['text']
     goal_item.vcs_check = ('vcs_check.%d' % goal_id) in request.form
     project_db_session.commit()
+    project_db_session.close()
     return redirect(url_for('goals.index'))

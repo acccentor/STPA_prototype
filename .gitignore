@@ -7,6 +7,6 @@
 .idea/
 
 # db
-**.db
+#**.db
 #resources/db/projects
 !stpa.db
