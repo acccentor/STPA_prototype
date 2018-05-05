@@ -8,6 +8,7 @@ from stpa_prototype.project_management.vcs import get_repo, add_and_commit
 # from stpa_prototype.database.models import Project
 # from stpa_prototype.project_management.vcs import init_db_repo, create_and_commit_master
 
+
 vcs_blueprint = Blueprint('vcs', __name__, template_folder='templates', url_prefix='/vcs')
 
 

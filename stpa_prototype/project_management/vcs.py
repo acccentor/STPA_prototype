@@ -38,11 +38,19 @@ def get_repo(project_id):
     return repo
 
 
-
-# repo_path = join(os_path, str(2))
+#
+# repo_path = join(os_path, str(1))
 # repo = Repo(repo_path)
+# master = repo.heads.master
+# print repo.commit().name_rev
 # git = repo.git
-# git.checkout(repo.iter_commits().next())
+# int_i = 0
+# for commit in repo.iter_commits():
+#     print commit.name_rev
+#     if int_i == 2:
+#         git.checkout('master')
+#     int_i += 1
+
 
 
 
