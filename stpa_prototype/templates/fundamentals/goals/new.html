@@ -1,24 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form action="" method=post class="form-horizontal">
+  <form method=POST class="form-horizontal" action="{{ url_for('goals.new') }}">
     <h2>Create New Goal</h2>
     <div class="control-group">
         <div class="controls">
-          <input type="text" id="title" name="title" class="input-xlarge"
-            placeholder="Please give title to the goal" value="{{ request.form.title }}"
-            required>
+            {{ form.title(class="input-xlarge") }}
+{#          <input type="text" id="title" name="title" class="input-xlarge"#}
+{#            placeholder="Please give title to the goal" value="{{ request.form.title }}"#}
+{#            required>#}
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            {{ form.text(class="input-xlarge", rows=10) }}
+{#          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the goal" required>{{ request.form.text }}</textarea>#}
         </div>
     </div>
  
     <div class="control-group">
         <div class="controls">
-          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the goal" required>{{ request.form.text }}</textarea>
-        </div>
-    </div>
- 
-    <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn btn-success">Create Goal</button>
+            {{ form.create_goal(class="btn btn-success") }}
+{#          <button type="submit" class="btn btn-success">Create Goal</button>#}
           <a href="{{ url_for('goals.index') }}">Back to list</a>
         </div>
     </div>
