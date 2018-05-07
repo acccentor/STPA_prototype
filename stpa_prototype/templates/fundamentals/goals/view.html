@@ -1,31 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form action="" method=post class="form-horizontal">
-    <h2>Create New Goal</h2>
+  <form method=POST class="form-horizontal" action="{{ url_for('goals.new') }}">
+    <h2>Show and Update Goal</h2>
     <div class="control-group">
         <div class="controls">
-          <input type="text" id="title" name="title" class="input-xlarge"
-            placeholder="Goal title" value="{{ goal.title }}"
-            required>
+            {{ form.title(class="input-xlarge") }}
+{#          <input type="text" id="title" name="title" class="input-xlarge"#}
+{#            placeholder="Please give title to the goal" value="{{ request.form.title }}"#}
+{#            required>#}
         </div>
     </div>
- 
+
     <div class="control-group">
         <div class="controls">
-          <textarea name="text" rows=10 class="input-xlarge" placeholder="describle the goal" required>{{ goal.text }}</textarea>
+            {{ form.text(class="input-xlarge", rows=10) }}
+{#          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the goal" required>{{ request.form.text }}</textarea>#}
         </div>
     </div>
- 
+
     <div class="control-group">
         <div class="controls">
-          <input type=checkbox name=vcs_check.{{ goal.id }}{{ " checked" if goal.vcs_check }}>
-        </div>
-    </div>
- 
- 
-    <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn btn-success">Update Goal</button>
+            {{ form.submit_goal(class="btn btn-success") }}
+{#          <button type="submit" class="btn btn-success">Create Goal</button>#}
           <a href="{{ url_for('goals.index') }}">Back to list</a>
         </div>
     </div>
