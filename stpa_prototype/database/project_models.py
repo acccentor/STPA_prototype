@@ -17,3 +17,18 @@ class Goal(ProjectDB.PBase):
         self.text = text
         self.vcs_check = False
         self.pub_date = datetime.utcnow()
+
+
+class Hazard(ProjectDB.PBase):
+    __tablename__ = 'system_hazard'
+    id = Column('hazard_id', Integer, primary_key=True)
+    title = Column(String(60))
+    text = Column(String)
+    vcs_check = Column(Boolean)
+    pub_date = Column(DateTime)
+
+    def __init__(self, title, text):
+        self.title = title
+        self.text = text
+        self.vcs_check = False
+        self.pub_date = datetime.utcnow()

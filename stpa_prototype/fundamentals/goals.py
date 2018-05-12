@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, url_for, redirect, sessio
 # from flask import current_app as app
 # from stpa_prototype.database.database import db_session
 from stpa_prototype.database.database_project import ProjectDB
-from stpa_prototype.database.models import Goal
+from stpa_prototype.database.project_models import Goal
 from flask_security.decorators import login_required
 
 from stpa_prototype.wtforms.forms import GoalForm

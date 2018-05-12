@@ -1,31 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form action="" method=post class="form-horizontal">
-    <h2>Create New Hazard</h2>
+  <form method=POST class="form-horizontal" action="{{ url_for('hazards.new') }}">
+    <h2>Show and Update Hazard</h2>
     <div class="control-group">
         <div class="controls">
-          <input type="text" id="title" name="title" class="input-xlarge"
-            placeholder="Please give title to the hazard" value="{{ hazard.title }}"
-            required>
+            {{ form.title(class="input-xlarge") }}
+{#          <input type="text" id="title" name="title" class="input-xlarge"#}
+{#            placeholder="Please give title to the hazard" value="{{ request.form.title }}"#}
+{#            required>#}
         </div>
     </div>
- 
+
     <div class="control-group">
         <div class="controls">
-          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the hazard" required>{{ hazard.text }}</textarea>
+            {{ form.text(class="input-xlarge", rows=10) }}
+{#          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the hazard" required>{{ request.form.text }}</textarea>#}
         </div>
     </div>
- 
+
     <div class="control-group">
         <div class="controls">
-          <input type=checkbox name=vcs_check.{{ hazard.id }}{{ " checked" if hazard.vcs_check }}>
-        </div>
-    </div>
- 
- 
-    <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn btn-success">Update Hazard</button>
+            {{ form.submit_hazard(class="btn btn-success") }}
+{#          <button type="submit" class="btn btn-success">Create Hazard</button>#}
           <a href="{{ url_for('hazards.index') }}">Back to list</a>
         </div>
     </div>

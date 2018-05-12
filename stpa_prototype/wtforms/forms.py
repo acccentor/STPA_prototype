@@ -16,3 +16,8 @@ class ShowUpdate(Form):
     text = TextAreaField(render_kw={"placeholder": 'Describe the goal'})
     create_goal = SubmitField(label='Create Goal')
 
+
+class HazardForm(Form):
+    title = StringField(render_kw={"placeholder": 'Please give title to the hazard'}, validators=[DataRequired()])
+    text = TextAreaField(render_kw={"placeholder": 'Describe the hazard'})
+    submit_hazard = SubmitField(label='Create Hazard')
