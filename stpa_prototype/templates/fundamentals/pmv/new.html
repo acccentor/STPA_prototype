@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+  <form method=POST class="form-horizontal" action="{{ url_for('pmv.new') }}">
+    <h2>Create New PMV</h2>
+    <div class="control-group">
+        <div class="controls">
+            {{ form.title(class="input-xlarge") }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            {{ form.text(class="input-xlarge", rows=10) }}
+        </div>
+    </div>
+ 
+    <div class="control-group">
+        <div class="controls">
+            {{ form.submit_pmv(class="btn btn-success") }}
+          <a href="{{ url_for('pmv.index') }}">Back to list</a>
+        </div>
+    </div>
+  </form>
+{% endblock %}
