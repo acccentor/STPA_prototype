@@ -10,22 +10,6 @@ from stpa_prototype.wtforms.forms import PMVForm
 pmv_blueprint = Blueprint('pmv', __name__, template_folder='templates', url_prefix='/pmv')
 
 
-# TODO remove test functions
-@pmv_blueprint.route('/hello')
-def hello_world():
-    return 'Hello!!!! Werld!'
-
-
-@pmv_blueprint.route('/test')
-def test():
-    print session['active_project_db']
-    db = ProjectDB(session['active_project_db']).get_project_db_session()
-    db.add(PMV('thisistest', 'still test'))
-    db.query(PMV).all()
-    db.close()
-    return 'Hello!!!! Werld!'
-
-
 @pmv_blueprint.route('/')
 @login_required
 def index():

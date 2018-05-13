@@ -27,3 +27,9 @@ class PMVForm(Form):
     title = StringField(render_kw={"placeholder": 'Please give title to the pmv'}, validators=[DataRequired()])
     text = TextAreaField(render_kw={"placeholder": 'Describe the pmv'})
     submit_pmv = SubmitField(label='Create PMV')
+
+
+class ControlActionForm(Form):
+    title = StringField(render_kw={"placeholder": 'Please give title to the ca'}, validators=[DataRequired()])
+    text = TextAreaField(render_kw={"placeholder": 'Describe the ca'})
+    submit_ca = SubmitField(label='Create control action')

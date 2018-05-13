@@ -4,6 +4,7 @@ from flask_security import Security, SQLAlchemySessionUserDatastore
 from stpa_prototype.auth.auth import auth_blueprint
 from stpa_prototype.database.database import db_session, init_db
 from stpa_prototype.database.models import User, Role
+from stpa_prototype.fundamentals.control_actions import ca_blueprint
 from stpa_prototype.fundamentals.goals import goals_blueprint
 from stpa_prototype.fundamentals.hazards import hazards_blueprint
 from stpa_prototype.fundamentals.pmv import pmv_blueprint
@@ -28,6 +29,7 @@ app.register_blueprint(auth_blueprint)
 app.register_blueprint(project_blueprint)
 app.register_blueprint(vcs_blueprint)
 app.register_blueprint(pmv_blueprint)
+app.register_blueprint(ca_blueprint)
 
 init_db()
 

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="main" class="container">
+    <h2>All Items</h2>
+    <table class="table table-hover">
+      <tr>
+        <th>#
+        <th>Title
+        <th>Text
+        <th>Date
+      {%- for ca in ca %}
+      <tr class={{ "success" if ca.vcs_check }}>
+        <td><a href="/ca/{{ ca.id }}">{{ ca.id }}</a>
+        <td>{{ ca.title }}
+        <td>{{ ca.text }}</td>
+        <td>{{ ca.pub_date.strftime('%Y-%m-%d %H:%M') }}
+      {%- endfor %}
+    </table>
+    <p>
+      <a href="{{ url_for('ca.new') }}" class="btn btn-large btn-primary">New PMV</a>
+ 
+ 
+</div>
+{% endblock %}
