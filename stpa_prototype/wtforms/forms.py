@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, SubmitField, TextAreaField
+from wtforms import Form, StringField, SubmitField, TextAreaField, FieldList, FormField
 from wtforms.validators import DataRequired
 
 
@@ -23,10 +23,16 @@ class HazardForm(Form):
     submit_hazard = SubmitField(label='Create Hazard')
 
 
+class PMVVForm(Form):
+    text = StringField(render_kw={"placeholder": 'Please name pmv value'}, validators=[DataRequired()])
+
+
 class PMVForm(Form):
     title = StringField(render_kw={"placeholder": 'Please give title to the pmv'}, validators=[DataRequired()])
     text = TextAreaField(render_kw={"placeholder": 'Describe the pmv'})
     submit_pmv = SubmitField(label='Create PMV')
+    submit_pmvv = SubmitField(label='Add PMV Value')
+    pmvvs = FieldList(FormField(PMVVForm), min_entries=1)
 
 
 class ControlActionForm(Form):

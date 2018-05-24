@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form method=POST class="form-horizontal" action="{{ url_for('pmv.new') }}">
+  <form method=POST class="form-horizontal" action="{{ url_for('pmv.show_or_update', pmv_id=pmv_id) }}">
     <h2>Show and Update PMV</h2>
     <div class="control-group">
         <div class="controls">
@@ -10,7 +10,15 @@
 {#            required>#}
         </div>
     </div>
-
+    <div class="control-group">
+        <div class="controls">
+            <h4>Add PMV Values</h4>
+            {% for pmvv in form.pmvvs %}
+                {{ pmvv.text(class="input-xlarge") }} <br/>
+            {% endfor %}
+            {{ form.submit_pmvv(class="btn btn-success") }}
+        </div>
+    </div>
     <div class="control-group">
         <div class="controls">
             {{ form.text(class="input-xlarge", rows=10) }}

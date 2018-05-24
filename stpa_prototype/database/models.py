@@ -66,6 +66,7 @@ class User(Base, UserMixin):
                          backref=backref('users', lazy='dynamic'))
     projects = relationship('Project', secondary='project_users', backref=backref('projects', lazy='dynamic'))
 
+
 # example Role from https://pythonhosted.org/Flask-Security/quickstart.html
 class Role(Base, RoleMixin):
     __tablename__ = 'role'

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, session
 from flask_security import utils
 
 import stpa_prototype
@@ -25,6 +25,8 @@ def login():
         user = db_session.query(User).filter_by(email=request.form['email']).first()
         if utils.verify_password(request.form['password'], user.password):
             utils.login_user(user, remember=None)
+            # TODO more dynamic project select
+            session['active_project_db'] = 1
             return redirect(url_for('project.index'))
         # temp_user = stpa_prototype.user_datastore.get_user(request.form['email'])
         # print utils.verify_and_update_password(request.form['password'], temp_user)
