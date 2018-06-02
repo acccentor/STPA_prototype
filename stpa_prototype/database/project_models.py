@@ -82,20 +82,20 @@ class PMVV(ProjectDB.PBase):
         self.pub_date = datetime.utcnow()
 
 
-class HCA(ProjectDB.PBase):
-    __tablename__ = 'hca_table'
-    id = Column(Integer(), primary_key=True)
-    cah = relationship("Hazard")
-    cah_tl = relationship("Hazard")
-    cah_te = relationship("Hazard")
-    ca_id = Column(Integer, ForeignKey('system_control_action.id'))
-    # ca = relationship("ControlAction", uselist=False)
-    pmvs = relationship("PMV")
-    pmvvs = relationship("PMVV")
-    # ca = Column(Integer, ForeignKey('system_control_action.control_action_id'))
-    # pmv = Column(Integer, ForeignKey('system_pmv.pmv_id'))
-
-    def __init__(self, ca, pmvs, pmvvs):
-        self.ca_id = ca.id
-        self.pmvs = pmvs
-        self.pmvs = pmvvs
+# class HCA(ProjectDB.PBase):
+#     __tablename__ = 'hca_table'
+#     id = Column(Integer(), primary_key=True)
+#     cah = relationship("Hazard")
+#     cah_tl = relationship("Hazard")
+#     cah_te = relationship("Hazard")
+#     ca_id = Column(Integer, ForeignKey('system_control_action.id'))
+#     # ca = relationship("ControlAction", uselist=False)
+#     pmvs = relationship("PMV")
+#     pmvvs = relationship("PMVV")
+#     # ca = Column(Integer, ForeignKey('system_control_action.control_action_id'))
+#     # pmv = Column(Integer, ForeignKey('system_pmv.pmv_id'))
+#
+#     def __init__(self, ca, pmvs, pmvvs):
+#         self.ca_id = ca.id
+#         self.pmvs = pmvs
+#         self.pmvs = pmvvs

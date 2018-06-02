@@ -8,6 +8,7 @@ from stpa_prototype.fundamentals.control_actions import ca_blueprint
 from stpa_prototype.fundamentals.goals import goals_blueprint
 from stpa_prototype.fundamentals.hazards import hazards_blueprint
 from stpa_prototype.fundamentals.pmv import pmv_blueprint
+from stpa_prototype.hca.hca import hca_blueprint
 from stpa_prototype.project_management.project import project_blueprint
 from stpa_prototype.project_management.vcs_blueprint import vcs_blueprint
 
@@ -30,8 +31,9 @@ app.register_blueprint(project_blueprint)
 app.register_blueprint(vcs_blueprint)
 app.register_blueprint(pmv_blueprint)
 app.register_blueprint(ca_blueprint)
+app.register_blueprint(hca_blueprint)
 
-init_db()
+# init_db()
 
 # # Login manager
 # login_manager = LoginManager()
