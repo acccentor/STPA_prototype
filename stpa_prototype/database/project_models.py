@@ -28,6 +28,7 @@ class Hazard(ProjectDB.PBase):
     text = Column(String)
     vcs_check = Column(Boolean)
     pub_date = Column(DateTime)
+    # hca = relationship('HCA', secondary='hca_hazard', backref=backref('hca_table', lazy='dynamic'))
 
     def __init__(self, title, text):
         self.title = title
@@ -49,8 +50,8 @@ class ControlAction(ProjectDB.PBase):
         self.text = text
         self.vcs_check = False
         self.pub_date = datetime.utcnow()
-        
-        
+
+
 class PMV(ProjectDB.PBase):
     __tablename__ = 'system_pmv'
     id = Column('pmv_id', Integer, primary_key=True)
@@ -75,6 +76,7 @@ class PMVV(ProjectDB.PBase):
     pub_date = Column(DateTime)
     pmv_id = Column(Integer, ForeignKey('system_pmv.pmv_id'))
     pmv = relationship("PMV", back_populates="pmvvs")
+    hca = relationship('HCA', secondary='hca_pmvv', backref=backref('hca_table', lazy='dynamic'))
 
     def __init__(self, text):
         self.text = text
@@ -82,20 +84,38 @@ class PMVV(ProjectDB.PBase):
         self.pub_date = datetime.utcnow()
 
 
-# class HCA(ProjectDB.PBase):
-#     __tablename__ = 'hca_table'
-#     id = Column(Integer(), primary_key=True)
-#     cah = relationship("Hazard")
-#     cah_tl = relationship("Hazard")
-#     cah_te = relationship("Hazard")
-#     ca_id = Column(Integer, ForeignKey('system_control_action.id'))
-#     # ca = relationship("ControlAction", uselist=False)
-#     pmvs = relationship("PMV")
-#     pmvvs = relationship("PMVV")
-#     # ca = Column(Integer, ForeignKey('system_control_action.control_action_id'))
-#     # pmv = Column(Integer, ForeignKey('system_pmv.pmv_id'))
-#
-#     def __init__(self, ca, pmvs, pmvvs):
-#         self.ca_id = ca.id
-#         self.pmvs = pmvs
-#         self.pmvs = pmvvs
+class HCA(ProjectDB.PBase):
+    __tablename__ = 'hca_table'
+    id = Column('hca_id', Integer(), primary_key=True)
+    # cah = relationship("Hazard", ForeignKey('system_hazard.id'))
+    cah = relationship('Hazard', secondary='hca_hazard')
+    cah_tl = relationship('Hazard', secondary='hca_hazard')
+    cah_te = relationship('Hazard', secondary='hca_hazard')
+    # cah_tl = relationship("Hazard")
+    # cah_te = relationship("Hazard")
+    ca_id = Column(Integer, ForeignKey('system_control_action.control_action_id'))
+    # ca = relationship("ControlAction", uselist=False)
+
+    pmvvs = relationship("PMVV", secondary='hca_pmvv', backref=backref('system_pmvv', lazy='dynamic'))
+
+    # ca = Column(Integer, ForeignKey('system_control_action.control_action_id'))
+    # pmv = Column(Integer, ForeignKey('system_pmv.pmv_id'))
+
+    def __init__(self, ca):
+        self.ca_id = ca.id
+        # self.pmvs = pmvs
+        # self.pmvvs = pmvvs
+
+
+class HCAHazard(ProjectDB.PBase):
+    __tablename__ = 'hca_hazard'
+    id = Column(Integer(), primary_key=True)
+    hca_id = Column('hca_id', Integer(), ForeignKey('hca_table.hca_id'))
+    hazard_id = Column('hazard_id', Integer(), ForeignKey('system_hazard.hazard_id'))
+
+
+class HcaPmvv(ProjectDB.PBase):
+    __tablename__ = 'hca_pmvv'
+    id = Column(Integer(), primary_key=True)
+    hca_id = Column('hca_id', Integer(), ForeignKey('hca_table.hca_id'))
+    pmvv_id = Column('pmvv_id', Integer(), ForeignKey('system_pmvv.pmvv_id'))
