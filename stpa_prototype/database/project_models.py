@@ -94,7 +94,7 @@ class HCA(ProjectDB.PBase):
     # cah_tl = relationship("Hazard")
     # cah_te = relationship("Hazard")
     ca_id = Column(Integer, ForeignKey('system_control_action.control_action_id'))
-    # ca = relationship("ControlAction", uselist=False)
+    ca = relationship("ControlAction", uselist=False)
 
     pmvvs = relationship("PMVV", secondary='hca_pmvv', backref=backref('system_pmvv', lazy='dynamic'))
 

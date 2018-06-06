@@ -5,19 +5,21 @@
     <table class="table table-hover">
       <tr>
         <th>#
-        <th>Title
-        <th>Text
-        <th>Date
-      {%- for pmv in pmv %}
-      <tr class={{ "success" if pmv.vcs_check }}>
-        <td><a href="/pmv/{{ pmv.id }}">{{ pmv.id }}</a>
-        <td>{{ pmv.title }}
-        <td>{{ pmv.text }}</td>
-        <td>{{ pmv.pub_date.strftime('%Y-%m-%d %H:%M') }}
+        <th>CA
+        {%- for pmvv in hca_list[0].pmvvs %}
+            <th>{{ pmvv.pmv.title }}
+        {%- endfor %}
+      {%- for hca in hca_list %}
+      <tr class={{ "success" if hca.vcs_check }}>
+        <td>{{ hca.id }}
+        <td>{{ hca.ca.title }}
+        {%- for pmvv in hca.pmvvs %}
+            <td>{{ pmvv.text }}
+        {%- endfor %}
       {%- endfor %}
     </table>
     <p>
-      <a href="{{ url_for('pmv.new') }}" class="btn btn-large btn-primary">New PMV</a>
+{#      <a href="{{ url_for('hca.new') }}" class="btn btn-large btn-primary">New HCA</a>#}
  
  
 </div>

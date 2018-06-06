@@ -10,24 +10,34 @@ from stpa_prototype.database.project_models import ControlAction, PMV, HCA
 hca_blueprint = Blueprint('hca', __name__, template_folder='templates', url_prefix='/hca')
 
 
+# @hca_blueprint.route('/')
+# @login_required
+# def index():
+#     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+#     pmv_list = project_db_session.query(PMV).order_by(PMV.id.asc()).all()
+#     ca_list = project_db_session.query(ControlAction).order_by(ControlAction.id.asc()).all()
+#     cross_pmvv_list = recursive(pmv_list, [], [])
+#     hca_entries = []
+#     for ca in ca_list:
+#         for cross_pmvv in cross_pmvv_list:
+#             # hca = HCA(ca, cross_pmvv)
+#             hca = HCA(ca)
+#             for pmvv in cross_pmvv:
+#                 hca.pmvvs.append(pmvv)
+#             hca_entries.append(hca)
+#     print hca_entries
+#
+#     return 'test'
+
+
 @hca_blueprint.route('/')
 @login_required
 def index():
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-    pmv_list = project_db_session.query(PMV).order_by(PMV.id.asc()).all()
-    ca_list = project_db_session.query(ControlAction).order_by(ControlAction.id.asc()).all()
-    cross_pmvv_list = recursive(pmv_list, [], [])
-    hca_entries = []
-    for ca in ca_list:
-        for cross_pmvv in cross_pmvv_list:
-            # hca = HCA(ca, cross_pmvv)
-            hca = HCA(ca)
-            for pmvv in cross_pmvv:
-                hca.pmvvs.append(pmvv)
-            hca_entries.append(hca)
-    print hca_entries
-
-    return 'test'
+    hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
+    return render_template('hca/index.html', hca_list=hca_list)
+    # TODO db session close after return, so never run, this method will look db for vcs
+    # project_db_session.close()
 
 
 @hca_blueprint.route('/write')
@@ -54,18 +64,6 @@ def write():
     return 'test'
 
 
-@hca_blueprint.route('/read')
-@login_required
-def read():
-    project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-    hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
-    for hca in hca_list:
-        print 'hca{}, pmvvs{}'.format(hca.id, hca.pmvvs)
-        for pmvv in hca.pmvvs:
-            print 'hca: ' + format(hca.id) + ', ' + format(pmvv.text)
-    project_db_session.close()
-
-    return 'read test'
 
 
 def recursive(remaining_columns, path, result):
