@@ -40,3 +40,13 @@ class ControlActionForm(Form):
     text = TextAreaField(render_kw={"placeholder": 'Describe the ca'})
     submit_ca = SubmitField(label='Create control action')
 
+
+class HCAAddHazard(Form):
+    add_cah = SubmitField(label='+')
+    add_cahtl = SubmitField(label='+')
+    add_cahte = SubmitField(label='+')
+    add_cahnp = SubmitField(label='+')
+
+
+class CAHazard(Form):
+    hazards = FieldList(FormField(HCAAddHazard), min_entries=1)

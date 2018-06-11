@@ -3,9 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
+
 class ProjectDB:
     PBase = declarative_base()
-
     def __init__(self, project_id):
         path = 'sqlite:///resources/db/projects/{}/project.db'.format(project_id)
         self.project_id = project_id
