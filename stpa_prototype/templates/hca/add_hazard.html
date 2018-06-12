@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form method=POST class="form-horizontal" action="{{ url_for('pmv.new') }}">
+  <form method=POST class="form-horizontal" action="{{ url_for('hca.add_remove') }}">
     <h2>Current Hazards</h2>
     <div id="main" class="container">
         <h2>All Items</h2>
@@ -9,11 +9,13 @@
             <th>#
             <th>Title
             <th>Text
-          {%- for hazard in current_hazards %}
+            <th>Remove
+          {%- for hazard, hazard_button in current_hazards_tuple %}
           <tr class={{ "success" if hazard.vcs_check }}>
             <td><a href="/hazards/{{ hazard.id }}">{{ hazard.id }}</a>
             <td>{{ hazard.title }}
-            <td>{{ hazard.text }}</td>
+            <td>{{ hazard.text }}
+            <td>{{ hazard_button.remove_button }}{{ hazard_button.hazard_id }}</td>
           {%- endfor %}
         </table>
         <p>
@@ -26,14 +28,18 @@
             <th>#
             <th>Title
             <th>Text
-          {%- for hazard in possible_hazards %}
+            <th>Add
+          {%- for hazard, hazard_button in possible_hazards_tuple %}
           <tr class={{ "success" if hazard.vcs_check }}>
             <td><a href="/hazards/{{ hazard.id }}">{{ hazard.id }}</a>
             <td>{{ hazard.title }}
             <td>{{ hazard.text }}</td>
+            <td>{{ hazard_button.add_button }}{{ hazard_button.hazard_id }}</td>
           {%- endfor %}
         </table>
         <p>
     </div>
+    {{ hidden.hca_id }}
+    {{ hidden.cah_type }}
   </form>
 {% endblock %}

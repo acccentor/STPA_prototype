@@ -5,45 +5,28 @@ from stpa_prototype.database.database_project import ProjectDB
 from flask_security.decorators import login_required
 # from stpa_prototype.wtforms.forms import HCAForm
 from stpa_prototype.database.project_models import ControlAction, PMV, HCA, Hazard
-from stpa_prototype.wtforms.forms import HCAAddHazard, CAHazard
+from stpa_prototype.wtforms.forms import HCAAddHazard, CAHazard, HCACurrentHazards
 
 hca_blueprint = Blueprint('hca', __name__, template_folder='templates', url_prefix='/hca')
 
 
-# @hca_blueprint.route('/')
-# @login_required
-# def index():
-#     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-#     pmv_list = project_db_session.query(PMV).order_by(PMV.id.asc()).all()
-#     ca_list = project_db_session.query(ControlAction).order_by(ControlAction.id.asc()).all()
-#     cross_pmvv_list = recursive(pmv_list, [], [])
-#     hca_entries = []
-#     for ca in ca_list:
-#         for cross_pmvv in cross_pmvv_list:
-#             # hca = HCA(ca, cross_pmvv)
-#             hca = HCA(ca)
-#             for pmvv in cross_pmvv:
-#                 hca.pmvvs.append(pmvv)
-#             hca_entries.append(hca)
-#     print hca_entries
-#
-#     return 'test'
-
-
-# @hca_blueprint.route('/')
-# @login_required
-# def index():
-#     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-#     hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
-#     return render_template('hca/index.html', hca_list=hca_list)
-#     # TODO db session close after return, so never run, this method will look db for vcs
-#     # project_db_session.close()
-
-
-@hca_blueprint.route('/')
+@hca_blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+    if request.method == 'POST':
+        form = CAHazard(request.form)
+        # project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+        for hazard in form.hazards:
+            if hazard.add_cah.data:
+                return show_add_remove_hazard(hazard.hca_id.data, 0)
+            elif hazard.add_cahtl.data:
+                return show_add_remove_hazard(hazard.hca_id.data, 1)
+            elif hazard.add_cahte.data:
+                return show_add_remove_hazard(hazard.hca_id.data, 2)
+            elif hazard.add_cahnp.data:
+                return show_add_remove_hazard(hazard.hca_id.data, 3)
+        return redirect(url_for('hca.index'))
     hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
     hca_hazard_button_form = CAHazard()
     for hca in hca_list:
@@ -58,32 +41,84 @@ def index():
     # project_db_session.close()
 
 
+
+
+
+
 @hca_blueprint.route('/add', methods=['GET', 'POST'])
 @login_required
-def add_hazard():
+def add_remove():
     if request.method == 'POST':
-        form = CAHazard(request.form)
-        for hazard in form.hazards:
-            if hazard.add_cah.data:
-                return show_add_remove_hazard(hazard.hca_id.data, 0)
-            elif hazard.add_cahtl.data:
-                show_add_remove_hazard(hazard.hca_id.data, 1)
-            elif hazard.add_cahte.data:
-                show_add_remove_hazard(hazard.hca_id.data, 2)
-            elif hazard.add_cahnp.data:
-                show_add_remove_hazard(hazard.hca_id.data, 3)
-            # print hazard.hca_id.data
-            # print hazard.add_cah.data
-        return redirect(url_for('hca.index'))
+        form = HCACurrentHazards(request.form)
+        project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+        hca = project_db_session.query(HCA).get(form.hca_id.data)
+        cah_type = format(form.cah_type.data)
+        current_hazards = None
+        if cah_type == "0":
+            current_hazards = hca.cah
+        elif cah_type == "1":
+            current_hazards = hca.cah_tl
+        elif cah_type == "2":
+            current_hazards = hca.cah_te
+        elif cah_type == "3":
+            current_hazards = hca.cah_np
+
+        for hazard_button in form.possible_hazards:
+            if hazard_button.add_button.data:
+                hazard = project_db_session.query(Hazard).get(hazard_button.hazard_id.data)
+                current_hazards.append(hazard)
+                project_db_session.commit()
+                return show_add_remove_hazard(form.hca_id.data, form.cah_type.data)
+        for hazard_button in form.current_hazards:
+            if hazard_button.remove_button.data:
+                hazard = project_db_session.query(Hazard).get(hazard_button.hazard_id.data)
+                current_hazards.remove(hazard)
+                project_db_session.commit()
+                return show_add_remove_hazard(cah_type, form.cah_type.data)
     return redirect(url_for('hca.index'))
 
 
-def show_add_remove_hazard(hca_id, cah_type):
+def show_add_remove_hazard(hca_id, cah_type_raw):
+    cah_type = format(cah_type_raw)
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
     hca = project_db_session.query(HCA).get(hca_id)
-    possible_hazards = project_db_session.query(Hazard).order_by(Hazard.id.asc()).all()
-    return render_template('hca/add_hazard.html', current_hazards=hca.cah_te, possible_hazards=possible_hazards)
+    current_hazards = []
+    if cah_type == "0":
+        current_hazards = hca.cah
+    elif cah_type == "1":
+        current_hazards = hca.cah_tl
+    elif cah_type == "2":
+        current_hazards = hca.cah_te
+    elif cah_type == "3":
+        current_hazards = hca.cah_np
 
+    all_hazards = project_db_session.query(Hazard).order_by(Hazard.id.asc()).all()
+    possible_hazards = []
+    for hazard_to_add in all_hazards:
+        to_add = True
+        for hazard_to_compare in current_hazards:
+            # print "hazard to add: {}, hazard_to_compare: {}".format(hazard_to_add.id, hazard_to_compare.id)
+            if hazard_to_add.id == hazard_to_compare.id:
+                to_add = False
+        if to_add:
+            possible_hazards.append(hazard_to_add)
+
+    add_remove_hazard_button = HCACurrentHazards()
+    add_remove_hazard_button.hca_id.data = hca_id
+    add_remove_hazard_button.cah_type.data = cah_type
+    for hazard in current_hazards:
+        add_remove_hazard_button.current_hazards.append_entry()
+    current_hazards_tuple = zip(current_hazards, add_remove_hazard_button.current_hazards)
+    for current_hazard, hazard_button in current_hazards_tuple:
+        hazard_button.hazard_id.data = current_hazard.id
+
+    for hazard in possible_hazards:
+        add_remove_hazard_button.possible_hazards.append_entry()
+    possible_hazards_tuple = zip(possible_hazards, add_remove_hazard_button.possible_hazards)
+    for possible_hazard, hazard_button in possible_hazards_tuple:
+        hazard_button.hazard_id.data = possible_hazard.id
+    return render_template('hca/add_hazard.html', current_hazards_tuple=current_hazards_tuple,
+                           possible_hazards_tuple=possible_hazards_tuple, hidden=add_remove_hazard_button)
 
 
 @hca_blueprint.route('/write')
@@ -111,44 +146,11 @@ def write():
 
 
 def recursive(remaining_columns, path, result):
-    # print 'recursive'
     if not remaining_columns:
-        # print 'not remaining_colums'
         return path
     for payload in remaining_columns[0].pmvvs:
-        # print 'path: ' + format(path)
-        # print 'payload: ' + format(payload)
-        # print 'result b: ' + format(result)
-        # print 'remaining: ' + format(remaining_columns)
-        # print 'remainging[1:]' + format(remaining_columns[1:])
         if not remaining_columns[1:]:
             result.append(recursive(remaining_columns[1:], path + [payload], result))
         else:
             recursive(remaining_columns[1:], path + [payload], result)
     return result
-    #
-    #
-    # class testclass():
-    #     list = []
-    #
-    # def product(pmv_list):
-    #     hca_table = []
-    #     # pmvv_talbe = [[]]
-    #     y = 0
-    #     # for i in range(1, len(pmv_list)):
-    #     #     hca_table.
-    #
-    #     for pmv in pmv_list:
-    #         x = 0
-    #         for pmvv in pmv.pmvvs:
-    #             print format(pmv.id) + ', ' + format(pmvv.id)
-    #             x += 1
-    #         y += 1
-
-    # def genereate_context_table():
-    #     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-    #     ca_list = project_db_session.query(ControlAction).order_by(ControlAction.id.asc()).all()
-    #     pmv_list = project_db_session.query(PMV).order_by(PMV.id.asc()).all()
-    #     context_table = []
-    #     for ca in ca_list:
-    #

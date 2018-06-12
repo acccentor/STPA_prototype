@@ -51,3 +51,24 @@ class HCAAddHazard(Form):
 
 class CAHazard(Form):
     hazards = FieldList(FormField(HCAAddHazard))
+
+
+class CAHAdd(Form):
+    hazard_id = HiddenField()
+    add_button = SubmitField(label='+')
+
+
+class CAHRemove(Form):
+    hazard_id = HiddenField()
+    remove_button = SubmitField(label='-')
+
+
+class HCACurrentHazards(Form):
+    hca_id = HiddenField()
+    cah_type = HiddenField()
+    possible_hazards = FieldList(FormField(CAHAdd))
+    current_hazards = FieldList(FormField(CAHRemove))
+
+
+
+
