@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, SubmitField, TextAreaField, FieldList, FormField
+from wtforms import Form, StringField, SubmitField, TextAreaField, FieldList, FormField, IntegerField, HiddenField
 from wtforms.validators import DataRequired
 
 
@@ -42,6 +42,7 @@ class ControlActionForm(Form):
 
 
 class HCAAddHazard(Form):
+    hca_id = HiddenField()
     add_cah = SubmitField(label='+')
     add_cahtl = SubmitField(label='+')
     add_cahte = SubmitField(label='+')

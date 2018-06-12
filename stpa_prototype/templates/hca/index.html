@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
+
 <div id="main" class="container">
     <h2>All Items</h2>
+    <form method=POST class="form-horizontal" action="{{ url_for('hca.add_hazard') }}">
     <table class="table table-hover">
       <tr>
         <th>#
@@ -25,12 +27,14 @@
       <td>{{ hazard.add_cahte }}
       <td>{{ hazard.add_cahtl }}
       <td>{{ hazard.add_cahnp }}
+      {{ hazard.hca_id }}
       {%- endfor %}
     </table>
     <p>
+    </form>
 
 {#      <a href="{{ url_for('hca.new') }}" class="btn btn-large btn-primary">New HCA</a>#}
- 
- 
+
+
 </div>
 {% endblock %}

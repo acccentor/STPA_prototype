@@ -3,7 +3,6 @@ from flask import Blueprint, render_template, request, url_for, redirect, sessio
 # from stpa_prototype.database.database import db_session
 from stpa_prototype.database.database_project import ProjectDB
 from flask_security.decorators import login_required
-
 # from stpa_prototype.wtforms.forms import HCAForm
 from stpa_prototype.database.project_models import ControlAction, PMV, HCA
 from stpa_prototype.wtforms.forms import HCAAddHazard, CAHazard
@@ -31,30 +30,44 @@ hca_blueprint = Blueprint('hca', __name__, template_folder='templates', url_pref
 #     return 'test'
 
 
+# @hca_blueprint.route('/')
+# @login_required
+# def index():
+#     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+#     hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
+#     return render_template('hca/index.html', hca_list=hca_list)
+#     # TODO db session close after return, so never run, this method will look db for vcs
+#     # project_db_session.close()
+
+
 @hca_blueprint.route('/')
 @login_required
 def index():
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
     hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
-    return render_template('hca/index.html', hca_list=hca_list)
-    # TODO db session close after return, so never run, this method will look db for vcs
-    # project_db_session.close()
-
-
-@hca_blueprint.route('/test')
-@login_required
-def test():
-    project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-    hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
     hca_hazard_button_form = CAHazard()
     for hca in hca_list:
-        hca_hazard_button = HCAAddHazard()
-        hca_hazard_button.id = hca.id
-        hca_hazard_button_form.hazards.append_entry(hca_hazard_button)
+        # TODO size instead of list
+        hazard_buttons = HCAAddHazard()
+        hca_hazard_button_form.hazards.append_entry(hazard_buttons)
     for_loop_tuple = zip(hca_list, hca_hazard_button_form.hazards)
-    return render_template('hca/index.html', hca_list=hca_list, add_hazard_form=hca_hazard_button_form, for_loop_tuple=for_loop_tuple)
+    for hca, hazard in for_loop_tuple:
+        hazard.hca_id.data = hca.id
+    return render_template('hca/index.html', for_loop_tuple=for_loop_tuple, hca_list=hca_list)
     # TODO db session close after return, so never run, this method will look db for vcs
     # project_db_session.close()
+
+
+@hca_blueprint.route('/add', methods=['GET', 'POST'])
+@login_required
+def add_hazard():
+    if request.method == 'POST':
+        form = CAHazard(request.form)
+        for hazard in form.hazards:
+            print hazard.hca_id.data
+            print hazard.add_cah.data
+        return redirect(url_for('hca.index'))
+    return redirect(url_for('hca.index'))
 
 
 @hca_blueprint.route('/write')
@@ -97,29 +110,29 @@ def recursive(remaining_columns, path, result):
         else:
             recursive(remaining_columns[1:], path + [payload], result)
     return result
-#
-#
-# class testclass():
-#     list = []
-#
-# def product(pmv_list):
-#     hca_table = []
-#     # pmvv_talbe = [[]]
-#     y = 0
-#     # for i in range(1, len(pmv_list)):
-#     #     hca_table.
-#
-#     for pmv in pmv_list:
-#         x = 0
-#         for pmvv in pmv.pmvvs:
-#             print format(pmv.id) + ', ' + format(pmvv.id)
-#             x += 1
-#         y += 1
+    #
+    #
+    # class testclass():
+    #     list = []
+    #
+    # def product(pmv_list):
+    #     hca_table = []
+    #     # pmvv_talbe = [[]]
+    #     y = 0
+    #     # for i in range(1, len(pmv_list)):
+    #     #     hca_table.
+    #
+    #     for pmv in pmv_list:
+    #         x = 0
+    #         for pmvv in pmv.pmvvs:
+    #             print format(pmv.id) + ', ' + format(pmvv.id)
+    #             x += 1
+    #         y += 1
 
-# def genereate_context_table():
-#     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-#     ca_list = project_db_session.query(ControlAction).order_by(ControlAction.id.asc()).all()
-#     pmv_list = project_db_session.query(PMV).order_by(PMV.id.asc()).all()
-#     context_table = []
-#     for ca in ca_list:
-#
+    # def genereate_context_table():
+    #     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+    #     ca_list = project_db_session.query(ControlAction).order_by(ControlAction.id.asc()).all()
+    #     pmv_list = project_db_session.query(PMV).order_by(PMV.id.asc()).all()
+    #     context_table = []
+    #     for ca in ca_list:
+    #
