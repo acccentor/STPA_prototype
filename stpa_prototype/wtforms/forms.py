@@ -49,4 +49,4 @@ class HCAAddHazard(Form):
 
 
 class CAHazard(Form):
-    hazards = FieldList(FormField(HCAAddHazard), min_entries=1)
+    hazards = FieldList(FormField(HCAAddHazard))

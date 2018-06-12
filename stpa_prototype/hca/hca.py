@@ -51,7 +51,8 @@ def test():
         hca_hazard_button = HCAAddHazard()
         hca_hazard_button.id = hca.id
         hca_hazard_button_form.hazards.append_entry(hca_hazard_button)
-    return render_template('hca/index.html', hca_list=hca_list, add_hazard_form=hca_hazard_button_form)
+    for_loop_tuple = zip(hca_list, hca_hazard_button_form.hazards)
+    return render_template('hca/index.html', hca_list=hca_list, add_hazard_form=hca_hazard_button_form, for_loop_tuple=for_loop_tuple)
     # TODO db session close after return, so never run, this method will look db for vcs
     # project_db_session.close()
 
