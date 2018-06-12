@@ -88,9 +88,10 @@ class HCA(ProjectDB.PBase):
     __tablename__ = 'hca_table'
     id = Column('hca_id', Integer(), primary_key=True)
     # cah = relationship("Hazard", ForeignKey('system_hazard.id'))
-    cah = relationship('Hazard', secondary='hca_hazard')
-    cah_tl = relationship('Hazard', secondary='hca_hazard')
-    cah_te = relationship('Hazard', secondary='hca_hazard')
+    cah = relationship('Hazard', secondary='hca_hazard_cah')
+    cah_tl = relationship('Hazard', secondary='hca_hazard_cah_te')
+    cah_te = relationship('Hazard', secondary='hca_hazard_cah_tl')
+    cah_np = relationship('Hazard', secondary='hca_hazard_cah_np')
     # cah_tl = relationship("Hazard")
     # cah_te = relationship("Hazard")
     ca_id = Column(Integer, ForeignKey('system_control_action.control_action_id'))
@@ -107,8 +108,29 @@ class HCA(ProjectDB.PBase):
         # self.pmvvs = pmvvs
 
 
-class HCAHazard(ProjectDB.PBase):
-    __tablename__ = 'hca_hazard'
+class HCAHazardCAH(ProjectDB.PBase):
+    __tablename__ = 'hca_hazard_cah'
+    id = Column(Integer(), primary_key=True)
+    hca_id = Column('hca_id', Integer(), ForeignKey('hca_table.hca_id'))
+    hazard_id = Column('hazard_id', Integer(), ForeignKey('system_hazard.hazard_id'))
+
+
+class HCAHazardCAHTE(ProjectDB.PBase):
+    __tablename__ = 'hca_hazard_cah_te'
+    id = Column(Integer(), primary_key=True)
+    hca_id = Column('hca_id', Integer(), ForeignKey('hca_table.hca_id'))
+    hazard_id = Column('hazard_id', Integer(), ForeignKey('system_hazard.hazard_id'))
+
+
+class HCAHazardCAHTL(ProjectDB.PBase):
+    __tablename__ = 'hca_hazard_cah_tl'
+    id = Column(Integer(), primary_key=True)
+    hca_id = Column('hca_id', Integer(), ForeignKey('hca_table.hca_id'))
+    hazard_id = Column('hazard_id', Integer(), ForeignKey('system_hazard.hazard_id'))
+
+
+class HCAHazardCAHNP(ProjectDB.PBase):
+    __tablename__ = 'hca_hazard_cah_np'
     id = Column(Integer(), primary_key=True)
     hca_id = Column('hca_id', Integer(), ForeignKey('hca_table.hca_id'))
     hazard_id = Column('hazard_id', Integer(), ForeignKey('system_hazard.hazard_id'))

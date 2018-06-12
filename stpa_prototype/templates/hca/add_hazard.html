@@ -1,33 +1,39 @@
 {% extends "layout.html" %}
 {% block body %}
   <form method=POST class="form-horizontal" action="{{ url_for('pmv.new') }}">
-    <h2>Create New PMV</h2>
-    <div class="control-group">
-        <div class="controls">
-            {{ form.title(class="input-xlarge") }}
-        </div>
+    <h2>Current Hazards</h2>
+    <div id="main" class="container">
+        <h2>All Items</h2>
+        <table class="table table-hover">
+          <tr>
+            <th>#
+            <th>Title
+            <th>Text
+          {%- for hazard in current_hazards %}
+          <tr class={{ "success" if hazard.vcs_check }}>
+            <td><a href="/hazards/{{ hazard.id }}">{{ hazard.id }}</a>
+            <td>{{ hazard.title }}
+            <td>{{ hazard.text }}</td>
+          {%- endfor %}
+        </table>
+        <p>
     </div>
-    <div class="control-group">
-        <div class="controls">
-            <h4>Add PMV Values</h4>
-            {% for pmvv in form.pmvvs %}
-                {{ pmvv.text(class="input-xlarge") }} <br/>
-            {% endfor %}
-            {{ form.submit_pmvv(class="btn btn-success") }}
-        </div>
-    </div>
-
-    <div class="control-group">
-        <div class="controls">
-            {{ form.text(class="input-xlarge", rows=10) }}
-        </div>
-    </div>
-
-    <div class="control-group">
-        <div class="controls">
-            {{ form.submit_pmv(class="btn btn-success") }}
-          <a href="{{ url_for('pmv.index') }}">Back to list</a>
-        </div>
+    <h2>Hazards to Add</h2>
+    <div id="main" class="container">
+        <h2>All Items</h2>
+        <table class="table table-hover">
+          <tr>
+            <th>#
+            <th>Title
+            <th>Text
+          {%- for hazard in possible_hazards %}
+          <tr class={{ "success" if hazard.vcs_check }}>
+            <td><a href="/hazards/{{ hazard.id }}">{{ hazard.id }}</a>
+            <td>{{ hazard.title }}
+            <td>{{ hazard.text }}</td>
+          {%- endfor %}
+        </table>
+        <p>
     </div>
   </form>
 {% endblock %}

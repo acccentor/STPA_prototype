@@ -15,7 +15,7 @@
         <th>Too Late
         <th>Too Early
         <th>Not Provided
-      {%- for hca, hazard in for_loop_tuple %}
+      {%- for hca, hazard_form in for_loop_tuple %}
 {#      {%- for hca in hca_list%}#}
       <tr class={{ "success" if hca.vcs_check }}>
         <td>{{ hca.id }}
@@ -23,11 +23,24 @@
         {%- for pmvv in hca.pmvvs %}
             <td>{{ pmvv.text }}
         {%- endfor %}
-      <td>{{ hazard.add_cah }}
-      <td>{{ hazard.add_cahte }}
-      <td>{{ hazard.add_cahtl }}
-      <td>{{ hazard.add_cahnp }}
-      {{ hazard.hca_id }}
+      <td>
+          {%- for hazard in hca.cah %}
+              [{{ hazard.id }}]
+          {%- endfor %}
+          {{ hazard_form.add_cah }}
+      <td>{%- for hazard in hca.cah_te %}
+              [{{ hazard.id }}]
+          {%- endfor %}
+          {{ hazard_form.add_cahte }}
+      <td>{%- for hazard in hca.cah_tl %}
+              [{{ hazard.id }}]
+          {%- endfor %}
+          {{ hazard_form.add_cahtl }}
+      <td>{%- for hazard in hca.cah_np %}
+              [{{ hazard.id }}]
+          {%- endfor %}
+          {{ hazard_form.add_cahnp }}
+      {{ hazard_form.hca_id }}
       {%- endfor %}
     </table>
     <p>
