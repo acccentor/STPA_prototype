@@ -21,7 +21,7 @@ class HazardForm(Form):
     title = StringField(render_kw={"placeholder": 'Please give title to the hazard'}, validators=[DataRequired()])
     text = TextAreaField(render_kw={"placeholder": 'Describe the hazard'})
     submit_hazard = SubmitField(label='Create Hazard')
-    show_hca_button = SubmitField(label='Show HCA')
+    show_hca_button = SubmitField(label='Show related HCA')
 
 
 class PMVVForm(Form):
@@ -72,6 +72,12 @@ class HCACurrentHazards(Form):
     cah_type = HiddenField()
     possible_hazards = FieldList(FormField(CAHAdd))
     current_hazards = FieldList(FormField(CAHRemove))
+
+
+class ProjectSelect(Form):
+    set_active = SubmitField(label='Set active')
+    delete = SubmitField(label='Delete project')
+
 
 
 

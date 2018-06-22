@@ -64,7 +64,7 @@ class User(Base, UserMixin):
     confirmed_at = Column(DateTime())
     roles = relationship('Role', secondary='roles_users',
                          backref=backref('users', lazy='dynamic'))
-    projects = relationship('Project', secondary='project_users', backref=backref('projects', lazy='dynamic'))
+    projects = relationship('Project', secondary='project_users', back_populates='users', lazy='dynamic')
 
 
 # example Role from https://pythonhosted.org/Flask-Security/quickstart.html
@@ -87,7 +87,7 @@ class Project(Base):
     id = Column(Integer(), primary_key=True)
     title = Column(String(80))
     description = Column(String(255))
-    users = relationship('User', secondary='project_users', backref=backref('users', lazy='dynamic'))
+    users = relationship('User', secondary='project_users', back_populates='projects', lazy='dynamic')
 
     def __init__(self, title, desc, user):
         self.title = title

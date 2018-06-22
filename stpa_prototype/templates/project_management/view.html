@@ -2,10 +2,12 @@
 {% block body %}
   <form action="" method=post class="form-horizontal">
     <h2>Project</h2>
-    <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn btn-success">Set Active</button>
-        </div>
-    </div>
+{#    <div class="control-group">#}
+{#        <div class="controls">#}
+            {{ form.set_active(class="btn btn-success") }}
+            {{ form.delete(class="btn btn-danger") }}
+{#          <button type="submit" class="btn btn-success">Set Active</button>#}
+{#        </div>#}
+{#    </div>#}
   </form>
 {% endblock %}

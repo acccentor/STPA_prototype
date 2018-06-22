@@ -4,11 +4,11 @@ from stpa_prototype.database.models import *
 from stpa_prototype.project_management.vcs import *
 
 init_db()
-stpa_prototype.user_datastore.create_user(email='user2', password='user2')
-stpa_prototype.user_datastore.create_user(email='0', password='0')
-db_session.commit()
+# stpa_prototype.user_datastore.create_user(email='user2', password='user2')
+# stpa_prototype.user_datastore.create_user(email='0', password='0')
+# db_session.commit()
 
-user0 = User.query.filter_by(email='0').first()
+# user0 = User.query.filter_by(email='0').first()
 
 #
 # project1 = Project('project1', 'project 1 description', user0)

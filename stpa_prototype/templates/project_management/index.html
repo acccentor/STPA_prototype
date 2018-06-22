@@ -8,11 +8,16 @@
         <th>Title
         <th>Text
       {%- for project in projects %}
+          {% if  project.id == current_project %}
+      <tr class="success">
+          {% else %}
       <tr>
+          {% endif %}
         <td><a href="/project/{{ project.id }}">{{ project.id }}</a>
         <td>{{ project.title }}
         <td>{{ project.description }}</td>
 {#        <td>{{ project.pub_date.strftime('%Y-%m-%d %H:%M') }}#}
+      </tr>
       {%- endfor %}
     </table>
     <p>
