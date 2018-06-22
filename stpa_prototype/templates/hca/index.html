@@ -17,7 +17,7 @@
         <th>Not Provided
         <th>Hide HCA
       {%- for hca, hazard_form in for_loop_tuple %}
-        {% if not hca.hidden %}
+        {% if (not hca.hidden and not show_hide) or (hca.hidden and show_hide) %}
           <tr class={{ "success" if hca.vcs_check }}>
             <td>{{ hca.id }}
             <td>{{ hca.ca.title }}
@@ -47,6 +47,8 @@
       {%- endfor %}
     </table>
     <p>
+    {{ form.clear_table }}
+    {{ form.show_hide }}
     </form>
 
 {#      <a href="{{ url_for('hca.new') }}" class="btn btn-large btn-primary">New HCA</a>#}

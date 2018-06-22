@@ -22,21 +22,26 @@ def set_disabled(hca_id):
 @login_required
 def index():
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+    show_hide = False
     if request.method == 'POST':
         form = CAHazard(request.form)
-        # project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
-        for hazard in form.hazards:
-            if hazard.add_cah.data:
-                return show_add_remove_hazard(hazard.hca_id.data, 0)
-            elif hazard.add_cahtl.data:
-                return show_add_remove_hazard(hazard.hca_id.data, 1)
-            elif hazard.add_cahte.data:
-                return show_add_remove_hazard(hazard.hca_id.data, 2)
-            elif hazard.add_cahnp.data:
-                return show_add_remove_hazard(hazard.hca_id.data, 3)
-            elif hazard.remove_hca.data:
-                set_disabled(hazard.hca_id.data)
-        return redirect(url_for('hca.index'))
+        if form.show_hide.data:
+            show_hide = True
+        elif form.clear_table.data:
+            write()
+        else:
+            for hazard in form.hazards:
+                if hazard.add_cah.data:
+                    return show_add_remove_hazard(hazard.hca_id.data, 0)
+                elif hazard.add_cahtl.data:
+                    return show_add_remove_hazard(hazard.hca_id.data, 1)
+                elif hazard.add_cahte.data:
+                    return show_add_remove_hazard(hazard.hca_id.data, 2)
+                elif hazard.add_cahnp.data:
+                    return show_add_remove_hazard(hazard.hca_id.data, 3)
+                elif hazard.remove_hca.data:
+                    set_disabled(hazard.hca_id.data)
+            return redirect(url_for('hca.index'))
     hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
     hca_hazard_button_form = CAHazard()
     for hca in hca_list:
@@ -46,7 +51,8 @@ def index():
     for_loop_tuple = zip(hca_list, hca_hazard_button_form.hazards)
     for hca, hazard in for_loop_tuple:
         hazard.hca_id.data = hca.id
-    return render_template('hca/index.html', for_loop_tuple=for_loop_tuple, hca_list=hca_list)
+    return render_template('hca/index.html', for_loop_tuple=for_loop_tuple, hca_list=hca_list, show_hide=show_hide,
+                           form=hca_hazard_button_form)
     # TODO db session close after return, so never run, this method will look db for vcs
     # project_db_session.close()
 
@@ -127,10 +133,10 @@ def show_add_remove_hazard(hca_id, cah_type_raw):
                            possible_hazards_tuple=possible_hazards_tuple, hidden=add_remove_hazard_button)
 
 
-@hca_blueprint.route('/write')
-@login_required
 def write():
+    # TODO relationships do not delete
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+    project_db_session.query(HCA).delete()
     pmv_list = project_db_session.query(PMV).order_by(PMV.id.asc()).all()
     ca_list = project_db_session.query(ControlAction).order_by(ControlAction.id.asc()).all()
     cross_pmvv_list = recursive(pmv_list, [], [])

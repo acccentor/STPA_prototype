@@ -52,6 +52,8 @@ class HCAAddHazard(Form):
 
 class CAHazard(Form):
     hazards = FieldList(FormField(HCAAddHazard))
+    show_hide = SubmitField(label='Show hidden hca')
+    clear_table = SubmitField(label='Generate table')
 
 
 class CAHAdd(Form):
