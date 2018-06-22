@@ -43,6 +43,9 @@ def index():
                     set_disabled(hazard.hca_id.data)
             return redirect(url_for('hca.index'))
     hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
+    if len(hca_list) == 0:
+        write()
+        hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
     hca_hazard_button_form = CAHazard()
     for hca in hca_list:
         # TODO size instead of list

@@ -26,4 +26,44 @@
         </div>
     </div>
   </form>
+  <form method=POST class="form-horizontal" action="{{ url_for('hazards.show_or_update', hazard_id=hazard_id) }}">
+  {{ form.show_hca_button }}
+  </form>
+    {% if show_hca %}
+    <table class="table table-hover">
+      <tr>
+        <th>#
+        <th>CA
+        {%- for pmvv in hca_list[0].pmvvs %}
+            <th>{{ pmvv.pmv.title }}
+        {%- endfor %}
+        <th>Hazardous
+        <th>Too Late
+        <th>Too Early
+        <th>Not Provided
+      {%- for hca in hca_list %}
+        {% if not hca.hidden %}
+          <tr class={{ "success" if hca.vcs_check }}>
+            <td>{{ hca.id }}
+            <td>{{ hca.ca.title }}
+            {%- for pmvv in hca.pmvvs %}
+                <td>{{ pmvv.text }}
+            {%- endfor %}
+          <td>
+              {%- for hazard in hca.cah %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+          <td>{%- for hazard in hca.cah_tl %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+          <td>{%- for hazard in hca.cah_te %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+          <td>{%- for hazard in hca.cah_np %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+        {% endif %}
+      {%- endfor %}
+    </table>
+    {% endif %}
 {% endblock %}

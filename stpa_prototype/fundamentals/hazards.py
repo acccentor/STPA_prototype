@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session
 from stpa_prototype.database.database_project import ProjectDB
-from stpa_prototype.database.project_models import Hazard
+from stpa_prototype.database.project_models import Hazard, HCA
 from flask_security.decorators import login_required
-
 from stpa_prototype.wtforms.forms import HazardForm
 
 hazards_blueprint = Blueprint('hazards', __name__, template_folder='templates', url_prefix='/hazards')
@@ -38,13 +37,18 @@ def new():
 def show_or_update(hazard_id):
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
     hazard_item = project_db_session.query(Hazard).get(hazard_id)
+    hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
+    show_hca = False
     if request.method == 'POST':
         form = HazardForm(request.form)
-        if form.validate():
+        if form.show_hca_button.data:
+            show_hca = True
+        elif form.validate():
             form.populate_obj(hazard_item)
             project_db_session.commit()
             project_db_session.close()
             return redirect(url_for('hazards.index'))
     form = HazardForm(obj=hazard_item)
-    project_db_session.close()
-    return render_template('fundamentals/hazards/view.html', form=form)
+    # project_db_session.close()
+    return render_template('fundamentals/hazards/view.html', form=form, hca_list=hca_list, show_hca=show_hca,
+                           hazard_id=hazard_id)

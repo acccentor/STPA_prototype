@@ -21,6 +21,7 @@ class HazardForm(Form):
     title = StringField(render_kw={"placeholder": 'Please give title to the hazard'}, validators=[DataRequired()])
     text = TextAreaField(render_kw={"placeholder": 'Describe the hazard'})
     submit_hazard = SubmitField(label='Create Hazard')
+    show_hca_button = SubmitField(label='Show HCA')
 
 
 class PMVVForm(Form):
