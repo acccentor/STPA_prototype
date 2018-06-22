@@ -37,12 +37,23 @@ def new():
 def show_or_update(hazard_id):
     project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
     hazard_item = project_db_session.query(Hazard).get(hazard_id)
-    hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
+    hca_list = []
     show_hca = False
     if request.method == 'POST':
         form = HazardForm(request.form)
         if form.show_hca_button.data:
             show_hca = True
+            full_hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
+            # hca_list = full_hca_list
+            for hca in full_hca_list:
+                if hazard_item in hca.cah:
+                    hca_list.append(hca)
+                elif hazard_item in hca.cah_te:
+                    hca_list.append(hca)
+                elif hazard_item in hca.cah_tl:
+                    hca_list.append(hca)
+                elif hazard_item in hca.cah_np:
+                    hca_list.append(hca)
         elif form.validate():
             form.populate_obj(hazard_item)
             project_db_session.commit()
