@@ -10,6 +10,14 @@ from stpa_prototype.wtforms.forms import HCAAddHazard, CAHazard, HCACurrentHazar
 hca_blueprint = Blueprint('hca', __name__, template_folder='templates', url_prefix='/hca')
 
 
+def set_disabled(hca_id):
+    project_db_session = ProjectDB(session['active_project_db']).get_project_db_session()
+    hca = project_db_session.query(HCA).get(hca_id)
+    hca.hidden = not hca.hidden
+    project_db_session.commit()
+    project_db_session.close()
+
+
 @hca_blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
@@ -26,6 +34,8 @@ def index():
                 return show_add_remove_hazard(hazard.hca_id.data, 2)
             elif hazard.add_cahnp.data:
                 return show_add_remove_hazard(hazard.hca_id.data, 3)
+            elif hazard.remove_hca.data:
+                set_disabled(hazard.hca_id.data)
         return redirect(url_for('hca.index'))
     hca_list = project_db_session.query(HCA).order_by(HCA.id.asc()).all()
     hca_hazard_button_form = CAHazard()
@@ -39,10 +49,6 @@ def index():
     return render_template('hca/index.html', for_loop_tuple=for_loop_tuple, hca_list=hca_list)
     # TODO db session close after return, so never run, this method will look db for vcs
     # project_db_session.close()
-
-
-
-
 
 
 @hca_blueprint.route('/add', methods=['GET', 'POST'])

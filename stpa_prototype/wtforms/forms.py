@@ -47,6 +47,7 @@ class HCAAddHazard(Form):
     add_cahtl = SubmitField(label='+')
     add_cahte = SubmitField(label='+')
     add_cahnp = SubmitField(label='+')
+    remove_hca = SubmitField(label='x')
 
 
 class CAHazard(Form):

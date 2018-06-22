@@ -15,32 +15,35 @@
         <th>Too Late
         <th>Too Early
         <th>Not Provided
+        <th>Hide HCA
       {%- for hca, hazard_form in for_loop_tuple %}
-{#      {%- for hca in hca_list%}#}
-      <tr class={{ "success" if hca.vcs_check }}>
-        <td>{{ hca.id }}
-        <td>{{ hca.ca.title }}
-        {%- for pmvv in hca.pmvvs %}
-            <td>{{ pmvv.text }}
-        {%- endfor %}
-      <td>
-          {%- for hazard in hca.cah %}
-              [{{ hazard.id }}]
-          {%- endfor %}
-          {{ hazard_form.add_cah }}
-      <td>{%- for hazard in hca.cah_tl %}
-              [{{ hazard.id }}]
-          {%- endfor %}
-          {{ hazard_form.add_cahtl }}
-      <td>{%- for hazard in hca.cah_te %}
-              [{{ hazard.id }}]
-          {%- endfor %}
-          {{ hazard_form.add_cahte }}
-      <td>{%- for hazard in hca.cah_np %}
-              [{{ hazard.id }}]
-          {%- endfor %}
-          {{ hazard_form.add_cahnp }}
-      {{ hazard_form.hca_id }}
+        {% if not hca.hidden %}
+          <tr class={{ "success" if hca.vcs_check }}>
+            <td>{{ hca.id }}
+            <td>{{ hca.ca.title }}
+            {%- for pmvv in hca.pmvvs %}
+                <td>{{ pmvv.text }}
+            {%- endfor %}
+          <td>
+              {%- for hazard in hca.cah %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+              {{ hazard_form.add_cah }}
+          <td>{%- for hazard in hca.cah_tl %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+              {{ hazard_form.add_cahtl }}
+          <td>{%- for hazard in hca.cah_te %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+              {{ hazard_form.add_cahte }}
+          <td>{%- for hazard in hca.cah_np %}
+                  [{{ hazard.id }}]
+              {%- endfor %}
+              {{ hazard_form.add_cahnp }}
+          <td>{{ hazard_form.remove_hca }}
+          {{ hazard_form.hca_id }}
+        {% endif %}
       {%- endfor %}
     </table>
     <p>

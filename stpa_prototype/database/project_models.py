@@ -87,6 +87,7 @@ class PMVV(ProjectDB.PBase):
 class HCA(ProjectDB.PBase):
     __tablename__ = 'hca_table'
     id = Column('hca_id', Integer(), primary_key=True)
+    hidden = Column(Boolean)
     # cah = relationship("Hazard", ForeignKey('system_hazard.id'))
     cah = relationship('Hazard', secondary='hca_hazard_cah')
     cah_tl = relationship('Hazard', secondary='hca_hazard_cah_te')
